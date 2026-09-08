@@ -33,10 +33,9 @@ header {
     width: 100%;
     max-width: 100%;
     height: auto;
-    max-height: 150px; /* Limit height on mobile */
     display: block;
     margin: 0 auto 20px auto;
-    object-fit: cover; /* Crop to fit while maintaining aspect ratio */
+    object-fit: contain; /* Show full image without cropping */
 }
 
 .main-title {
@@ -200,10 +199,6 @@ header {
 
 /* Tablet and larger screens - Two columns side by side */
 @media (min-width: 600px) {
-    .header-image {
-        max-height: 200px; /* Taller on tablets */
-    }
-
     .two-column-section {
         flex-direction: row;
         gap: 40px;
@@ -228,10 +223,6 @@ header {
 
 /* Desktop screens - Larger fonts and spacing */
 @media (min-width: 900px) {
-    .header-image {
-        max-height: 250px; /* Even taller on desktop */
-    }
-
     body {
         padding: 40px;
     }
