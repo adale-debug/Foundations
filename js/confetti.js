@@ -39,9 +39,14 @@
         const icon = icons[Math.floor(Math.random() * icons.length)];
         confetti.src = icon;
 
-        // Random starting position (from top corners)
+        // Random starting position (spread across top sides, gap in center)
         const fromLeft = Math.random() > 0.5;
-        const startX = fromLeft ? 0 : window.innerWidth;
+        // Left side: 0% to 30% of screen width
+        // Right side: 70% to 100% of screen width
+        // Gap in center: 30% to 70%
+        const startX = fromLeft
+            ? Math.random() * (window.innerWidth * 0.3) // 0-30% from left
+            : window.innerWidth * 0.7 + Math.random() * (window.innerWidth * 0.3); // 70-100% from left
         const startY = 0; // Start from top of screen
         const endX = Math.random() * window.innerWidth;
 
