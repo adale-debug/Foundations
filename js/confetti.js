@@ -39,17 +39,14 @@
         const icon = icons[Math.floor(Math.random() * icons.length)];
         confetti.src = icon;
 
-        // Random starting position (from sides)
+        // Random starting position (from top corners)
         const fromLeft = Math.random() > 0.5;
-        const startX = fromLeft ? -10 : window.innerWidth + 10;
+        const startX = fromLeft ? 0 : window.innerWidth;
+        const startY = 0; // Start from top of screen
         const endX = Math.random() * window.innerWidth;
 
         // Tiny size - between 15px and 30px
         const size = Math.random() * 15 + 15; // 15-30px
-
-        // Random rotation
-        const rotation = Math.random() * 360;
-        const rotationSpeed = Math.random() * 360 - 180; // -180 to 180
 
         // Random duration between 3-5 seconds
         const duration = Math.random() * 2 + 3;
@@ -58,10 +55,9 @@
         confetti.style.position = 'absolute';
         confetti.style.width = size + 'px';
         confetti.style.height = size + 'px';
-        confetti.style.top = '-50px';
+        confetti.style.top = startY + 'px';
         confetti.style.left = startX + 'px';
         confetti.style.opacity = '1';
-        confetti.style.transform = `rotate(${rotation}deg)`;
         confetti.style.objectFit = 'contain';
 
         confettiContainer.appendChild(confetti);
@@ -81,13 +77,11 @@
             // Calculate position (original animation - side to side, falling down)
             const currentX = startX + (endX - startX) * progress;
             const currentY = progress * (window.innerHeight + 50);
-            const currentRotation = rotation + (rotationSpeed * progress * 360);
             const currentOpacity = 1 - (progress * 0.5); // Fade out slightly
 
-            // Apply position
+            // Apply position (no rotation)
             confetti.style.left = currentX + 'px';
             confetti.style.top = currentY + 'px';
-            confetti.style.transform = `rotate(${currentRotation}deg)`;
             confetti.style.opacity = currentOpacity;
 
             requestAnimationFrame(animate);
