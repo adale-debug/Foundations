@@ -107,9 +107,18 @@ header {
     hyphens: none; /* No hyphenation */
 }
 
-/* Left Column - Spectator Education */
-.left-column .section-title {
+/* Right Column - Spectator Education (after swap) */
+.right-column .section-title {
     text-align: center;
+}
+
+/* Right Column - Spectator Education items should be left-aligned */
+.right-column .info-item {
+    justify-content: flex-start;
+}
+
+.right-column .info-text {
+    text-align: left;
 }
 
 /* Info Items (used in both left column and FAQs) */
@@ -144,6 +153,11 @@ header {
 
 /* Right Column - Judges Scores */
 .right-column {
+    text-align: center;
+}
+
+/* Left Column - Judges Scores (after swap) */
+.left-column {
     text-align: center;
 }
 

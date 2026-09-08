@@ -11,6 +11,15 @@
     // Confetti colors
     const colors = ['#f5d021', '#8cc540', '#29aae2', '#ec469c'];
 
+    // Confetti shapes (slightly curved/twisted rectangles)
+    const shapes = [
+        'polygon(10% 0%, 100% 10%, 90% 100%, 0% 90%)', // Twisted rectangle 1
+        'polygon(0% 10%, 90% 0%, 100% 90%, 10% 100%)', // Twisted rectangle 2
+        'polygon(5% 0%, 100% 5%, 95% 100%, 0% 95%)',   // Slight curve 1
+        'polygon(0% 5%, 95% 0%, 100% 95%, 5% 100%)',   // Slight curve 2
+        'polygon(8% 0%, 100% 12%, 92% 100%, 0% 88%)'   // Twisted rectangle 3
+    ];
+
     // Create confetti container
     const confettiContainer = document.createElement('div');
     confettiContainer.id = 'confetti-container';
@@ -32,29 +41,39 @@
         // Random color
         const color = colors[Math.floor(Math.random() * colors.length)];
 
+        // Random shape
+        const shape = shapes[Math.floor(Math.random() * shapes.length)];
+
         // Random starting position (from sides)
         const fromLeft = Math.random() > 0.5;
         const startX = fromLeft ? -10 : window.innerWidth + 10;
-        const endX = Math.random() * window.innerWidth;
 
-        // Random size
-        const size = Math.random() * 8 + 4; // 4-12px
+        // Random trajectory - shoots inward and across
+        const shootDistance = window.innerWidth * (0.3 + Math.random() * 0.4); // 30-70% across screen
+        const midX = fromLeft ? startX + shootDistance : startX - shootDistance;
+        const endX = midX + (Math.random() * 100 - 50); // Slight drift at end
+
+        // Random size (rectangles)
+        const width = Math.random() * 8 + 6; // 6-14px
+        const height = Math.random() * 12 + 8; // 8-20px
 
         // Random rotation
         const rotation = Math.random() * 360;
-        const rotationSpeed = Math.random() * 360 - 180; // -180 to 180
+        const rotationSpeed = Math.random() * 720 - 360; // -360 to 360 (faster rotation)
 
-        // Random duration between 3-5 seconds
-        const duration = Math.random() * 2 + 3;
+        // Total duration 3-5 seconds, but shoot phase is much faster
+        const totalDuration = Math.random() * 2 + 3;
+        const shootDuration = 0.4; // 0.4 seconds to shoot out (fast!)
+        const fallDuration = totalDuration - shootDuration;
 
         // Style the confetti
         confetti.style.position = 'absolute';
-        confetti.style.width = size + 'px';
-        confetti.style.height = size + 'px';
+        confetti.style.width = width + 'px';
+        confetti.style.height = height + 'px';
         confetti.style.backgroundColor = color;
+        confetti.style.clipPath = shape; // Apply twisted rectangle shape
         confetti.style.top = '-20px';
         confetti.style.left = startX + 'px';
-        confetti.style.borderRadius = '50%';
         confetti.style.opacity = '1';
         confetti.style.transform = `rotate(${rotation}deg)`;
 
@@ -65,18 +84,32 @@
 
         function animate() {
             const elapsed = (Date.now() - startTime) / 1000; // seconds
-            const progress = elapsed / duration;
 
-            if (progress >= 1) {
+            if (elapsed >= totalDuration) {
                 confetti.remove();
                 return;
             }
 
-            // Calculate position
-            const currentX = startX + (endX - startX) * progress;
-            const currentY = progress * (window.innerHeight + 20);
-            const currentRotation = rotation + (rotationSpeed * progress * 360);
-            const currentOpacity = 1 - (progress * 0.5); // Fade out slightly
+            let currentX, currentY, progress;
+
+            // Phase 1: Fast shoot out (first 0.4 seconds)
+            if (elapsed < shootDuration) {
+                progress = elapsed / shootDuration;
+                // Ease-out curve for shoot
+                const shootProgress = 1 - Math.pow(1 - progress, 3);
+                currentX = startX + (midX - startX) * shootProgress;
+                currentY = shootProgress * 150; // Only goes down 150px during shoot
+            }
+            // Phase 2: Slower fall (remaining time)
+            else {
+                const fallElapsed = elapsed - shootDuration;
+                progress = fallElapsed / fallDuration;
+                currentX = midX + (endX - midX) * progress;
+                currentY = 150 + (progress * (window.innerHeight - 150 + 20)); // Continue falling from 150px
+            }
+
+            const currentRotation = rotation + (rotationSpeed * (elapsed / totalDuration) * 2);
+            const currentOpacity = 1 - ((elapsed / totalDuration) * 0.5); // Fade out slightly
 
             // Apply position
             confetti.style.left = currentX + 'px';
