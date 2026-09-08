@@ -5,13 +5,22 @@
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 body {
     font-family: 'Didact Gothic', sans-serif;
     background-color: #ffffff;
     color: #001f3f; /* Navy color */
-    padding: 20px;
-    max-width: 100%;
+    padding: 15px;
+    width: 100%;
+    max-width: 100vw;
     overflow-x: hidden;
+    font-size: 16px; /* Base font size for better mobile readability */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Header Section */
@@ -22,56 +31,74 @@ header {
 
 .header-image {
     width: 100%;
-    max-width: 600px;
+    max-width: 100%;
     height: auto;
+    max-height: 150px; /* Limit height on mobile */
     display: block;
     margin: 0 auto 20px auto;
+    object-fit: cover; /* Crop to fit while maintaining aspect ratio */
 }
 
 .main-title {
     font-family: 'League Spartan', sans-serif;
-    font-size: 1.75rem; /* Large font */
+    font-size: 1.5rem; /* Larger for mobile readability */
     font-weight: 700;
     color: #001f3f;
     margin-bottom: 15px;
-    line-height: 1.3;
+    line-height: 1.4;
+    padding: 0 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .welcome-text {
     font-family: 'Didact Gothic', sans-serif;
-    font-size: 0.9rem; /* Small font */
+    font-size: 1rem; /* Increased from 0.9rem for better readability */
     color: #001f3f;
     margin-bottom: 15px;
-    line-height: 1.6;
-    max-width: 600px;
+    line-height: 1.7;
+    max-width: 100%;
     margin-left: auto;
     margin-right: auto;
+    padding: 0 5px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .thank-you {
     font-family: 'League Spartan', sans-serif;
-    font-size: 1.25rem; /* Medium font */
+    font-size: 1.15rem; /* Medium font - adjusted for mobile */
     font-weight: 600;
     color: #001f3f;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    padding: 0 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Two Column Section */
 .two-column-section {
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    margin-bottom: 30px;
+    gap: 35px;
+    margin-bottom: 35px;
+    width: 100%;
+    max-width: 100%;
 }
 
 .column {
     flex: 1;
+    padding: 0 5px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0; /* Important: allows flex items to shrink below content size */
 }
 
 /* Section Titles */
 .section-title {
     font-family: 'League Spartan', sans-serif;
-    font-size: 1rem; /* Small font */
+    font-size: 1.2rem; /* Increased for mobile readability */
     font-weight: 600;
     color: #001f3f;
     text-align: center;
@@ -87,21 +114,29 @@ header {
 .info-item {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 12px;
+    gap: 12px;
+    margin-bottom: 15px;
+    padding: 0 5px;
+    width: 100%;
+    max-width: 100%;
 }
 
 .info-icon {
-    width: 40px;
-    height: 40px;
+    width: 45px; /* Slightly larger for mobile */
+    height: 45px;
     flex-shrink: 0;
+    min-width: 45px; /* Prevent shrinking */
 }
 
 .info-text {
     font-family: 'Didact Gothic', sans-serif;
-    font-size: 0.9rem; /* Small font */
+    font-size: 1rem; /* Increased for better readability */
     color: #001f3f;
-    line-height: 1.5;
+    line-height: 1.6;
+    flex: 1;
+    min-width: 0; /* Allows text to wrap properly */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 /* Right Column - Judges Scores */
@@ -111,10 +146,14 @@ header {
 
 .scores-text {
     font-family: 'Didact Gothic', sans-serif;
-    font-size: 0.9rem; /* Small font */
+    font-size: 1rem; /* Increased for readability */
     color: #001f3f;
     margin-bottom: 20px;
-    line-height: 1.6;
+    line-height: 1.7;
+    padding: 0 10px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
 }
 
 .gym-score-button {
@@ -122,13 +161,17 @@ header {
     background-color: #001f3f; /* Navy background */
     color: #ffffff; /* White text */
     font-family: 'League Spartan', sans-serif;
-    font-size: 1rem;
+    font-size: 1.1rem; /* Larger for easier tapping on mobile */
     font-weight: 600;
-    padding: 12px 30px;
+    padding: 15px 35px; /* Larger padding for easier mobile touch */
     border-radius: 8px; /* Slightly rounded corners */
     text-decoration: none;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Light shadow effect */
     transition: all 0.3s ease;
+    margin-top: 10px;
+    white-space: normal; /* Allow text to wrap if needed */
+    max-width: 100%;
+    text-align: center;
 }
 
 .gym-score-button:hover {
@@ -144,7 +187,10 @@ header {
 
 /* FAQs Section */
 .faqs-section {
-    margin-top: 30px;
+    margin-top: 35px;
+    padding: 0 5px;
+    width: 100%;
+    max-width: 100%;
 }
 
 .faqs-section .section-title {
@@ -154,6 +200,10 @@ header {
 
 /* Tablet and larger screens - Two columns side by side */
 @media (min-width: 600px) {
+    .header-image {
+        max-height: 200px; /* Taller on tablets */
+    }
+
     .two-column-section {
         flex-direction: row;
         gap: 40px;
@@ -178,6 +228,10 @@ header {
 
 /* Desktop screens - Larger fonts and spacing */
 @media (min-width: 900px) {
+    .header-image {
+        max-height: 250px; /* Even taller on desktop */
+    }
+
     body {
         padding: 40px;
     }
